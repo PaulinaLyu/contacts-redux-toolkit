@@ -3,10 +3,10 @@ import { FilterFormValues } from "src/components/FilterForm";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ContactDto } from "src/types/dto/ContactDto";
 import { GroupContactsDto } from "src/types/dto/GroupContactsDto";
-import { useGetGroupsQuery } from "./groupsReducer";
 
 interface IInitialState {
   filteredContacts: ContactDto[];
+  isNoContacts: boolean;
 }
 
 interface IFilteredPayload {
@@ -17,6 +17,7 @@ interface IFilteredPayload {
 
 const initialState: IInitialState = {
   filteredContacts: [],
+  isNoContacts: false,
 };
 
 export const contactsSlice = createSlice({
@@ -27,7 +28,7 @@ export const contactsSlice = createSlice({
       let findContacts = action?.payload?.contacts;
       let findGroups = action?.payload?.groups;
       let formResult = action?.payload?.form;
-
+      debugger;
       if (formResult?.name) {
         const filteredName = formResult?.name.toLowerCase();
         findContacts = findContacts.filter(
@@ -46,6 +47,8 @@ export const contactsSlice = createSlice({
           );
         }
       }
+
+      state.isNoContacts = findContacts.length === 0;
 
       state.filteredContacts = findContacts;
     },

@@ -9,6 +9,7 @@ import { useGetGroupsQuery } from "src/redux/groupsReducer";
 
 export const ContactListPage = () => {
   const filtered = useAppSelector((state) => state.contacts.filteredContacts);
+  const isNoContacts = useAppSelector((state) => state.contacts.isNoContacts);
   const dispatch = useDispatch();
 
   const { data: contacts, isLoading } = useGetContactsQuery();
@@ -23,7 +24,7 @@ export const ContactListPage = () => {
       })
     );
   };
-
+  debugger;
   return (
     <Row xxl={1}>
       <Col className="mb-3">
@@ -32,18 +33,22 @@ export const ContactListPage = () => {
       <Col>
         <Row xxl={4} className="g-4">
           {isLoading && <Loader />}
-          {filtered.length > 0
-            ? filtered.map((contact) => (
-                <Col key={contact.id}>
-                  <ContactCard contact={contact} withLink />
-                </Col>
-              ))
-            : contacts &&
-              contacts.map((contact) => (
-                <Col key={contact.id}>
-                  <ContactCard contact={contact} withLink />
-                </Col>
-              ))}
+          {filtered.length > 0 &&
+            !isNoContacts &&
+            filtered.map((contact) => (
+              <Col key={contact.id}>
+                <ContactCard contact={contact} withLink />
+              </Col>
+            ))}
+          {filtered.length === 0 && isNoContacts && <span>No contacts</span>}
+          {contacts &&
+            filtered.length === 0 &&
+            !isNoContacts &&
+            contacts.map((contact) => (
+              <Col key={contact.id}>
+                <ContactCard contact={contact} withLink />
+              </Col>
+            ))}
         </Row>
       </Col>
     </Row>
