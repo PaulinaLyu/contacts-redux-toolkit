@@ -1,23 +1,25 @@
+import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { ContactCard } from "src/components/ContactCard";
 import { Empty } from "src/components/Empty";
-import { useGetContactsQuery } from "src/redux/contactsReducer";
+import { contactsStore } from "src/store/contactsStore";
+import { observer } from "mobx-react-lite";
 
-export const ContactPage = () => {
+export const ContactPage = observer(() => {
   const { contactId } = useParams<{ contactId: string }>();
+  const { selectedContact } = contactsStore;
 
-  const { contact } = useGetContactsQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      contact: data?.find((contact) => contact.id === contactId),
-    }),
-  });
-
+  useEffect(() => {
+    if (contactId) {
+      contactsStore.getSelectedContact(contactId);
+    }
+  }, []);
   return (
     <Row xxl={3}>
       <Col className={"mx-auto"}>
-        {contact ? <ContactCard contact={contact} /> : <Empty />}
+        {selectedContact ? <ContactCard contact={selectedContact} /> : <Empty />}
       </Col>
     </Row>
   );
-};
+});

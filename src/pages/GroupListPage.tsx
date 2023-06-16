@@ -1,18 +1,21 @@
 import { Col, Row } from "react-bootstrap";
 import { GroupContactsCard } from "src/components/GroupContactsCard";
-import { useGetGroupsQuery } from "src/redux/groupsReducer";
-import { Loader } from "src/components/Loader";
+import { groupsStore } from "src/store/groupsStore";
+import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
 
-export const GroupListPage = () => {
-  const { data: groups, isLoading } = useGetGroupsQuery();
+export const GroupListPage = observer(() => {
+  useEffect(() => {
+    groupsStore.getGroups();
+  }, []);
   return (
     <Row xxl={4}>
-      {isLoading && <Loader />}
-      {groups?.map((groupContacts) => (
+      {/* {isLoading && <Loader />} */}
+      {groupsStore.groups?.map((groupContacts) => (
         <Col key={groupContacts.id}>
           <GroupContactsCard groupContacts={groupContacts} withLink />
         </Col>
       ))}
     </Row>
   );
-};
+});

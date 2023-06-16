@@ -1,30 +1,36 @@
 import { Col, Row } from "react-bootstrap";
 import { ContactCard } from "src/components/ContactCard";
-import { useAppSelector } from "../redux/hooks";
+import { contactsStore } from "../store/contactsStore";
+
 import { FilterForm, FilterFormValues } from "src/components/FilterForm";
-import { filterContacts, useGetContactsQuery } from "src/redux/contactsReducer";
+
 import { Loader } from "src/components/Loader";
-import { useDispatch } from "react-redux";
-import { useGetGroupsQuery } from "src/redux/groupsReducer";
+import { useEffect } from "react";
+import { observer } from "mobx-react-lite";
 
-export const ContactListPage = () => {
-  const filtered = useAppSelector((state) => state.contacts.filteredContacts);
-  const isNoContacts = useAppSelector((state) => state.contacts.isNoContacts);
-  const dispatch = useDispatch();
+export const ContactListPage = observer(() => {
+  const { get, contacts } = contactsStore;
+  // const filtered = useAppSelector((state) => state.contacts.filteredContacts);
+  // const isNoContacts = useAppSelector((state) => state.contacts.isNoContacts);
+  // const dispatch = useDispatch();
 
-  const { data: contacts, isLoading } = useGetContactsQuery();
-  const { data: groups } = useGetGroupsQuery();
+  // const { data: contacts, isLoading } = useGetContactsQuery();
+  // const { data: groups } = useGetGroupsQuery();
 
   const onSubmit = (fv: Partial<FilterFormValues>) => {
-    dispatch(
-      filterContacts({
-        form: fv,
-        contacts: contacts || [],
-        groups: groups || [],
-      })
-    );
+    // dispatch(
+    //   filterContacts({
+    //     form: fv,
+    //     contacts: contacts || [],
+    //     groups: groups || [],
+    //   })
+    // );
   };
-  debugger;
+
+  useEffect(() => {
+    get();
+  }, []);
+
   return (
     <Row xxl={1}>
       <Col className="mb-3">
@@ -32,7 +38,7 @@ export const ContactListPage = () => {
       </Col>
       <Col>
         <Row xxl={4} className="g-4">
-          {isLoading && <Loader />}
+          {/* {isLoading && <Loader />}
           {filtered.length > 0 &&
             !isNoContacts &&
             filtered.map((contact) => (
@@ -40,10 +46,8 @@ export const ContactListPage = () => {
                 <ContactCard contact={contact} withLink />
               </Col>
             ))}
-          {filtered.length === 0 && isNoContacts && <span>No contacts</span>}
+          {filtered.length === 0 && isNoContacts && <span>No contacts</span>} */}
           {contacts &&
-            filtered.length === 0 &&
-            !isNoContacts &&
             contacts.map((contact) => (
               <Col key={contact.id}>
                 <ContactCard contact={contact} withLink />
@@ -53,4 +57,4 @@ export const ContactListPage = () => {
       </Col>
     </Row>
   );
-};
+});

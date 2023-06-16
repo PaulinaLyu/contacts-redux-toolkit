@@ -14,9 +14,7 @@ export const ContactCard = memo<ContactCardProps>(
       <Card key={id}>
         <Card.Img variant="top" src={photo} />
         <Card.Body>
-          <Card.Title>
-            {withLink ? <Link to={`/contact/${id}`}>{name}</Link> : name}
-          </Card.Title>
+          <Card.Title>{withLink ? <Link to={`/contact/${id}`}>{name}</Link> : name}</Card.Title>
           <Card.Body>
             <ListGroup>
               <ListGroup.Item>

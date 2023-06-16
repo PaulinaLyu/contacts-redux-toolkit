@@ -3,29 +3,29 @@ import { useParams } from "react-router-dom";
 import { GroupContactsCard } from "src/components/GroupContactsCard";
 import { Empty } from "src/components/Empty";
 import { ContactCard } from "src/components/ContactCard";
-import { useGetGroupsQuery } from "src/redux/groupsReducer";
-import { useGetContactsQuery } from "src/redux/contactsReducer";
+// import { useGetGroupsQuery } from "src/redux/groupsReducer";
+// import { useGetContactsQuery } from "src/redux/contactsReducer";
 
 export const GroupPage = () => {
   const { groupId } = useParams<{ groupId: string }>();
 
-  const { groupContacts } = useGetGroupsQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      groupContacts: data?.find((group) => group.id === groupId),
-    }),
-  });
+  // const { groupContacts } = useGetGroupsQuery(undefined, {
+  //   selectFromResult: ({ data }) => ({
+  //     groupContacts: data?.find((group) => group.id === groupId),
+  //   }),
+  // });
 
-  const { contacts } = useGetContactsQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      contacts: groupContacts
-        ? data?.filter(({ id }) => groupContacts.contactIds.includes(id))
-        : [],
-    }),
-  });
+  // const { contacts } = useGetContactsQuery(undefined, {
+  //   selectFromResult: ({ data }) => ({
+  //     contacts: groupContacts
+  //       ? data?.filter(({ id }) => groupContacts.contactIds.includes(id))
+  //       : [],
+  //   }),
+  // });
 
   return (
     <Row className="g-4">
-      {groupContacts ? (
+      {/* {groupContacts ? (
         <>
           <Col xxl={12}>
             <Row xxl={3}>
@@ -46,7 +46,7 @@ export const GroupPage = () => {
         </>
       ) : (
         <Empty />
-      )}
+      )} */}
     </Row>
   );
 };
