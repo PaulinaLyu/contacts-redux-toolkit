@@ -1,30 +1,51 @@
 import { Col, Row } from "react-bootstrap";
 import { ContactCard } from "src/components/ContactCard";
-import { useAppSelector } from "../redux/hooks";
+
 import { FilterForm, FilterFormValues } from "src/components/FilterForm";
-import { filterContacts, useGetContactsQuery } from "src/redux/contactsReducer";
+import { useGetContactsQuery } from "src/redux/contactsReducer";
 import { Loader } from "src/components/Loader";
-import { useDispatch } from "react-redux";
+
 import { useGetGroupsQuery } from "src/redux/groupsReducer";
+import { useEffect, useState } from "react";
+import { ContactDto } from "src/types/dto/ContactDto";
 
 export const ContactListPage = () => {
-  const filtered = useAppSelector((state) => state.contacts.filteredContacts);
-  const isNoContacts = useAppSelector((state) => state.contacts.isNoContacts);
-  const dispatch = useDispatch();
+  const [formData, setFormData] = useState<Partial<FilterFormValues> | null>(
+    null
+  );
+  const [filteredContacts, setFilteredContacts] = useState<ContactDto[]>([]);
 
   const { data: contacts, isLoading } = useGetContactsQuery();
   const { data: groups } = useGetGroupsQuery();
 
   const onSubmit = (fv: Partial<FilterFormValues>) => {
-    dispatch(
-      filterContacts({
-        form: fv,
-        contacts: contacts || [],
-        groups: groups || [],
-      })
-    );
+    setFormData(fv);
   };
-  debugger;
+
+  useEffect(() => {
+    let result = contacts || [];
+
+    if (formData) {
+      if (formData?.name && contacts) {
+        const filteredName = formData?.name.toLowerCase();
+        result = contacts?.filter(
+          ({ name }) => name.toLowerCase().indexOf(filteredName) > -1
+        );
+      }
+
+      if (formData.groupId && contacts) {
+        const groupContacts = groups?.find(({ id }) => id === formData.groupId);
+
+        if (groupContacts) {
+          result = result?.filter(({ id }) =>
+            groupContacts.contactIds.includes(id)
+          );
+        }
+      }
+    }
+    setFilteredContacts(result);
+  }, [contacts, formData]);
+
   return (
     <Row xxl={1}>
       <Col className="mb-3">
@@ -33,22 +54,15 @@ export const ContactListPage = () => {
       <Col>
         <Row xxl={4} className="g-4">
           {isLoading && <Loader />}
-          {filtered.length > 0 &&
-            !isNoContacts &&
-            filtered.map((contact) => (
+          {filteredContacts?.length > 0 ? (
+            filteredContacts.map((contact) => (
               <Col key={contact.id}>
                 <ContactCard contact={contact} withLink />
               </Col>
-            ))}
-          {filtered.length === 0 && isNoContacts && <span>No contacts</span>}
-          {contacts &&
-            filtered.length === 0 &&
-            !isNoContacts &&
-            contacts.map((contact) => (
-              <Col key={contact.id}>
-                <ContactCard contact={contact} withLink />
-              </Col>
-            ))}
+            ))
+          ) : (
+            <span>No contacts</span>
+          )}
         </Row>
       </Col>
     </Row>

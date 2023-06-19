@@ -1,11 +1,10 @@
 import { combineReducers } from "redux";
-import { contactsApiSlice, contactsSlice } from "./contactsReducer";
+import { contactsApiSlice } from "./contactsReducer";
 import { favoritesApiSlice } from "./favoritesReducer";
 import { configureStore } from "@reduxjs/toolkit";
 import { groupsApiSlice } from "./groupsReducer";
 
 const rootReducer = combineReducers({
-  contacts: contactsSlice.reducer,
   [groupsApiSlice.reducerPath]: groupsApiSlice.reducer,
   [favoritesApiSlice.reducerPath]: favoritesApiSlice.reducer,
   [contactsApiSlice.reducerPath]: contactsApiSlice.reducer,

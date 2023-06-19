@@ -1,59 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FilterFormValues } from "src/components/FilterForm";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ContactDto } from "src/types/dto/ContactDto";
-import { GroupContactsDto } from "src/types/dto/GroupContactsDto";
-
-interface IInitialState {
-  filteredContacts: ContactDto[];
-  isNoContacts: boolean;
-}
-
-interface IFilteredPayload {
-  form: Partial<FilterFormValues>;
-  contacts: ContactDto[];
-  groups: GroupContactsDto[];
-}
-
-const initialState: IInitialState = {
-  filteredContacts: [],
-  isNoContacts: false,
-};
-
-export const contactsSlice = createSlice({
-  name: "contacts",
-  initialState,
-  reducers: {
-    filterContacts(state, action: PayloadAction<IFilteredPayload>) {
-      let findContacts = action?.payload?.contacts;
-      let findGroups = action?.payload?.groups;
-      let formResult = action?.payload?.form;
-      debugger;
-      if (formResult?.name) {
-        const filteredName = formResult?.name.toLowerCase();
-        findContacts = findContacts.filter(
-          ({ name }) => name.toLowerCase().indexOf(filteredName) > -1
-        );
-      }
-
-      if (formResult.groupId) {
-        const groupContacts = findGroups.find(
-          ({ id }) => id === formResult.groupId
-        );
-
-        if (groupContacts) {
-          findContacts = findContacts.filter(({ id }) =>
-            groupContacts.contactIds.includes(id)
-          );
-        }
-      }
-
-      state.isNoContacts = findContacts.length === 0;
-
-      state.filteredContacts = findContacts;
-    },
-  },
-});
 
 export const contactsApiSlice = createApi({
   reducerPath: "contactsApi",
@@ -68,7 +14,5 @@ export const contactsApiSlice = createApi({
     };
   },
 });
-
-export const { filterContacts } = contactsSlice.actions;
 
 export const { useGetContactsQuery } = contactsApiSlice;
