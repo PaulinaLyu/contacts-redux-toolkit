@@ -3,9 +3,11 @@ import { api } from "../api";
 // import { isSuccessResponse, Response } from "../types/response";
 import { ContactDto } from "src/types/dto/ContactDto";
 import { GroupContactsDto } from "src/types/dto/GroupContactsDto";
+import { contactsStore } from "./contactsStore";
 
 export const groupsStore = makeAutoObservable({
   groups: [] as GroupContactsDto[],
+  selectedGroup: {} as GroupContactsDto,
   selectedGroupContacts: {} as ContactDto[],
 
   *getGroups() {
@@ -15,16 +17,20 @@ export const groupsStore = makeAutoObservable({
       groupsStore.groups = result;
     }
   },
-  // *getSelectedContact(contactId: string) {
-  //   const findedContact = contactsStore.contacts.find((contact) => contact.id === contactId);
-  //   if (findedContact) {
-  //     contactsStore.selectedContact = findedContact;
-  //   }
-  // },
-  // *getSelectedGroups(groupId: string) {
-  //   const findedGroupContacts = groupsStore.groups.find((contact) => contact.id === groupId);
-  //   if (findedContact) {
-  //     contactsStore.selectedContact = findedContact;
-  //   }
-  // },
+  getSelectedGroups(groupId: string) {
+    const foundGroupContacts = groupsStore.groups.find(
+      (group) => group.id === groupId
+    );
+    if (foundGroupContacts) {
+      debugger;
+      groupsStore.selectedGroup = foundGroupContacts;
+      const filteredGroupContacts = contactsStore?.contacts?.filter(({ id }) =>
+        foundGroupContacts.contactIds.includes(id)
+      );
+      debugger;
+      groupsStore.selectedGroupContacts = filteredGroupContacts
+        ? filteredGroupContacts
+        : [];
+    }
+  },
 });

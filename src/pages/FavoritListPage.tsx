@@ -6,9 +6,7 @@ import { useEffect } from "react";
 import { contactsStore } from "src/store/contactsStore";
 
 export const FavoritListPage = observer(() => {
-  const { getFavorites, favoritesContacts, contacts, get } = contactsStore;
-  console.log(contacts);
-  debugger;
+  const { get } = contactsStore;
 
   useEffect(() => {
     get();
