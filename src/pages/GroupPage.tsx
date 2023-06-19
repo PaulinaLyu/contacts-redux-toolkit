@@ -10,35 +10,45 @@ import { contactsStore } from "src/store/contactsStore";
 
 export const GroupPage = observer(() => {
   const { groupId } = useParams<{ groupId: string }>();
-  const { getGroups, getSelectedGroups } = groupsStore;
-  const { get } = contactsStore;
+  const {
+    getGroups,
+    selectedGroup,
+    selectedGroupContacts,
+    setSelectedGroupId,
+  } = groupsStore;
+  const { getContacts } = contactsStore;
 
   useEffect(() => {
-    get();
-    getGroups();
-
     if (groupId) {
-      getSelectedGroups(groupId);
+      setSelectedGroupId(groupId);
     }
-  }, []);
+    getContacts();
+    getGroups();
+  }, [groupId]);
+
   return (
     <Row className="g-4">
-      {groupsStore?.selectedGroup ? (
+      {selectedGroup ? (
         <>
           <Col xxl={12}>
             <Row xxl={3}>
               <Col className="mx-auto">
-                <GroupContactsCard groupContacts={groupsStore.selectedGroup} />
+                {Object.keys(selectedGroup).length > 0 ? (
+                  <GroupContactsCard groupContacts={selectedGroup} />
+                ) : (
+                  "No group"
+                )}
               </Col>
             </Row>
           </Col>
           <Col>
             <Row xxl={4} className="g-4">
-              {groupsStore?.selectedGroupContacts?.map((contact) => (
-                <Col key={contact.id}>
-                  <ContactCard contact={contact} withLink />
-                </Col>
-              ))}
+              {selectedGroupContacts &&
+                selectedGroupContacts?.map((contact) => (
+                  <Col key={contact.id}>
+                    <ContactCard contact={contact} withLink />
+                  </Col>
+                ))}
             </Row>
           </Col>
         </>

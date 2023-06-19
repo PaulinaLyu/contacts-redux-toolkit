@@ -8,17 +8,22 @@ import { observer } from "mobx-react-lite";
 
 export const ContactPage = observer(() => {
   const { contactId } = useParams<{ contactId: string }>();
-  const { selectedContact } = contactsStore;
+  const { selectedContact, getSelectedContact } = contactsStore;
 
   useEffect(() => {
     if (contactId) {
-      contactsStore.getSelectedContact(contactId);
+      getSelectedContact(contactId);
     }
-  }, []);
+  }, [contactId]);
+
   return (
     <Row xxl={3}>
       <Col className={"mx-auto"}>
-        {selectedContact ? <ContactCard contact={selectedContact} /> : <Empty />}
+        {selectedContact ? (
+          <ContactCard contact={selectedContact} />
+        ) : (
+          <Empty />
+        )}
       </Col>
     </Row>
   );

@@ -1,7 +1,8 @@
 import { Formik } from "formik";
 import { Col, Form, InputGroup, Row } from "react-bootstrap";
-import { memo } from "react";
+import { observer } from "mobx-react-lite";
 import { FormikConfig } from "formik/dist/types";
+import { groupsStore } from "src/store/groupsStore";
 
 export interface FilterFormValues {
   name: string;
@@ -10,41 +11,44 @@ export interface FilterFormValues {
 
 interface FilterFormProps extends FormikConfig<Partial<FilterFormValues>> {}
 
-export const FilterForm = memo<FilterFormProps>(({ onSubmit, initialValues = {} }) => {
-  return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
-      {({ handleChange, handleSubmit }) => (
-        <Form onSubmit={handleSubmit} onChange={handleSubmit}>
-          <Row xxl={4} className="g-4">
-            <Col>
-              <InputGroup className="mb-3">
-                <Form.Control
-                  id={"name"}
-                  name={"name"}
+export const FilterForm = observer<FilterFormProps>(
+  ({ onSubmit, initialValues = {} }) => {
+    const { groups } = groupsStore;
+    return (
+      <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        {({ handleChange, handleSubmit }) => (
+          <Form onSubmit={handleSubmit} onChange={handleSubmit}>
+            <Row xxl={4} className="g-4">
+              <Col>
+                <InputGroup className="mb-3">
+                  <Form.Control
+                    id={"name"}
+                    name={"name"}
+                    onChange={handleChange}
+                    placeholder="name"
+                    aria-label="name"
+                  />
+                </InputGroup>
+              </Col>
+              <Col>
+                <Form.Select
+                  id={"groupId"}
+                  name={"groupId"}
+                  aria-label="Find in group"
                   onChange={handleChange}
-                  placeholder="name"
-                  aria-label="name"
-                />
-              </InputGroup>
-            </Col>
-            <Col>
-              <Form.Select
-                id={"groupId"}
-                name={"groupId"}
-                aria-label="Find in group"
-                onChange={handleChange}
-              >
-                <option>Open this select menu</option>
-                {/* {groups?.map((groupContacts) => (
+                >
+                  <option>Open this select menu</option>
+                  {groups?.map((groupContacts) => (
                     <option value={groupContacts.id} key={groupContacts.id}>
                       {groupContacts.name}
                     </option>
-                  ))} */}
-              </Form.Select>
-            </Col>
-          </Row>
-        </Form>
-      )}
-    </Formik>
-  );
-});
+                  ))}
+                </Form.Select>
+              </Col>
+            </Row>
+          </Form>
+        )}
+      </Formik>
+    );
+  }
+);

@@ -6,16 +6,17 @@ import { useEffect } from "react";
 import { contactsStore } from "src/store/contactsStore";
 
 export const FavoritListPage = observer(() => {
-  const { get } = contactsStore;
+  const { getContacts } = contactsStore;
+  const { getFavorites, favorites } = favoritesStore;
 
   useEffect(() => {
-    get();
-    favoritesStore.getFavorites();
+    getContacts();
+    getFavorites();
   }, []);
 
   return (
     <Row xxl={4} className="g-4">
-      {favoritesStore.favorites?.map((contact) => (
+      {favorites?.map((contact) => (
         <Col key={contact.id}>
           <ContactCard contact={contact} withLink />
         </Col>

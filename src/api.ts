@@ -1,7 +1,6 @@
-import { ContactDto } from "./types/dto/ContactDto";
-
 class Api {
   async getContacts() {
+    debugger;
     const response = await fetch(
       "https://mocki.io/v1/82e24f9d-5da5-4a0c-bfdd-c61e885681af"
     ).then((res) => res.json());
