@@ -19,9 +19,7 @@ export const ContactListPage = observer(() => {
 
   useEffect(() => {
     getContacts();
-    debugger;
     getGroups();
-    debugger;
   }, []);
 
   return (
