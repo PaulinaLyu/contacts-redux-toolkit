@@ -1,9 +1,7 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FavoriteContactsDto } from "src/types/dto/FavoriteContactsDto";
+import { api } from "./api";
 
-export const favoritesApiSlice = createApi({
-  reducerPath: "favoritesApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://mocki.io/v1" }),
+export const favoritesApi = api.injectEndpoints({
   endpoints(builder) {
     return {
       getFavorites: builder.query<FavoriteContactsDto, void>({
@@ -13,4 +11,4 @@ export const favoritesApiSlice = createApi({
   },
 });
 
-export const { useGetFavoritesQuery } = favoritesApiSlice;
+export const { useGetFavoritesQuery } = favoritesApi;

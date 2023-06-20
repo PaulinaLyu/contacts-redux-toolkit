@@ -1,9 +1,7 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { GroupContactsDto } from "src/types/dto/GroupContactsDto";
+import { api } from "./api";
 
-export const groupsApiSlice = createApi({
-  reducerPath: "groupsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://mocki.io/v1" }),
+export const groupsApi = api.injectEndpoints({
   endpoints(builder) {
     return {
       getGroups: builder.query<GroupContactsDto[], void>({
@@ -13,4 +11,4 @@ export const groupsApiSlice = createApi({
   },
 });
 
-export const { useGetGroupsQuery } = groupsApiSlice;
+export const { useGetGroupsQuery } = groupsApi;

@@ -2,10 +2,10 @@ import { Col, Row } from "react-bootstrap";
 import { ContactCard } from "src/components/ContactCard";
 
 import { FilterForm, FilterFormValues } from "src/components/FilterForm";
-import { useGetContactsQuery } from "src/redux/contactsReducer";
+import { useGetContactsQuery } from "src/redux/contactsApi";
 import { Loader } from "src/components/Loader";
 
-import { useGetGroupsQuery } from "src/redux/groupsReducer";
+import { useGetGroupsQuery } from "src/redux/groupsApi";
 import { useEffect, useState } from "react";
 import { ContactDto } from "src/types/dto/ContactDto";
 

@@ -1,8 +1,8 @@
 import { Col, Row } from "react-bootstrap";
 import { ContactCard } from "src/components/ContactCard";
-import { useGetFavoritesQuery } from "src/redux/favoritesReducer";
+import { useGetFavoritesQuery } from "src/redux/favoritesApi";
 import { Loader } from "src/components/Loader";
-import { useGetContactsQuery } from "src/redux/contactsReducer";
+import { useGetContactsQuery } from "src/redux/contactsApi";
 
 export const FavoritListPage = () => {
   const { data: favoritesIds, isLoading } = useGetFavoritesQuery();

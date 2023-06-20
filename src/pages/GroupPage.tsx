@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { GroupContactsCard } from "src/components/GroupContactsCard";
 import { Empty } from "src/components/Empty";
 import { ContactCard } from "src/components/ContactCard";
-import { useGetGroupsQuery } from "src/redux/groupsReducer";
-import { useGetContactsQuery } from "src/redux/contactsReducer";
+import { useGetGroupsQuery } from "src/redux/groupsApi";
+import { useGetContactsQuery } from "src/redux/contactsApi";
 
 export const GroupPage = () => {
   const { groupId } = useParams<{ groupId: string }>();

@@ -2,7 +2,7 @@ import { Formik } from "formik";
 import { Col, Form, InputGroup, Row } from "react-bootstrap";
 import { memo } from "react";
 import { FormikConfig } from "formik/dist/types";
-import { useGetGroupsQuery } from "src/redux/groupsReducer";
+import { useGetGroupsQuery } from "src/redux/groupsApi";
 
 export interface FilterFormValues {
   name: string;
