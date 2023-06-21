@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { api } from "../api";
+import { api } from "../api/api";
 
 import { ContactDto } from "src/types/dto/ContactDto";
 import { GroupContactsDto } from "src/types/dto/GroupContactsDto";
