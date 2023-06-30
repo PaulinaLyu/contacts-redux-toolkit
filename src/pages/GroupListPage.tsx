@@ -6,11 +6,7 @@ import { useEffect } from "react";
 import { Loader } from "src/components/Loader";
 
 export const GroupListPage = observer(() => {
-  const { getGroups, groups, isLoading } = groupsStore;
-
-  useEffect(() => {
-    getGroups();
-  }, []);
+  const { groups, isLoading } = groupsStore;
 
   return (
     <Row xxl={4}>

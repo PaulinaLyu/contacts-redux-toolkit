@@ -10,20 +10,18 @@ import { contactsStore } from "src/store/contactsStore";
 
 export const GroupPage = observer(() => {
   const { groupId } = useParams<{ groupId: string }>();
-  const {
-    getGroups,
-    selectedGroup,
-    selectedGroupContacts,
-    setSelectedGroupId,
-  } = groupsStore;
+  const { selectedGroup, selectedGroupContacts, setSelectedGroupId, getGroups } = groupsStore;
   const { getContacts } = contactsStore;
 
   useEffect(() => {
+    debugger;
     if (groupId) {
+      debugger;
       setSelectedGroupId(groupId);
     }
     getContacts();
     getGroups();
+    debugger;
   }, [groupId]);
 
   return (

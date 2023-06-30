@@ -19,11 +19,7 @@ export const ContactPage = observer(() => {
   return (
     <Row xxl={3}>
       <Col className={"mx-auto"}>
-        {selectedContact ? (
-          <ContactCard contact={selectedContact} />
-        ) : (
-          <Empty />
-        )}
+        {selectedContact ? <ContactCard contact={selectedContact} /> : <Empty />}
       </Col>
     </Row>
   );

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./MainApp.scss";
 
 import { ThemeProvider } from "react-bootstrap";
@@ -5,8 +6,22 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Layout } from "src/components/Layout";
 
 import { ContactListPage, GroupPage, ContactPage, FavoritListPage, GroupListPage } from "src/pages";
+import { contactsStore } from "src/store/contactsStore";
+import { groupsStore } from "src/store/groupsStore";
+import { favoritesStore } from "src/store/favoritesStore";
 
 export const MainApp = () => {
+  const { getContacts } = contactsStore;
+  const { getGroups } = groupsStore;
+  const { getFavorites } = favoritesStore;
+
+  useEffect(() => {
+    getContacts();
+    getGroups();
+    getFavorites();
+    debugger;
+  }, []);
+
   return (
     <ThemeProvider
       breakpoints={["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"]}
